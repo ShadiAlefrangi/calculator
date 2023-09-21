@@ -3,10 +3,20 @@ import express from "express";
 const app = express();
 
 app.get("/calc", (req, res) => {
+	if (!req.query.discountType) {
+		throw new Error("You must enter the discount type");
+	}
 	const priceBeforeDiscount = req.query.priceBeforeDiscount;
 	const discount = req.query.discount;
+
 	const discountType = req.query.discountType.toUpperCase();
-	console.log(discountType);
+	if (!priceBeforeDiscount) {
+		throw new Error("You must enter the price before discount");
+	}
+	if (!discount) {
+		throw new Error("You must enter the discount value");
+	}
+
 	if (discountType !== "PERCENT" && discountType !== "FIXED") {
 		throw new Error(
 			"You can select one of two types of discount Fixed or Percent"
